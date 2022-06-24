@@ -3,7 +3,7 @@
 /* ADQUIRIR A API_KEY EM https://serpapi.com/ navegar até https://serpapi.com/manage-api-key */
 
 function gravar($nome, $texto){
-	$arquivo = preg_replace('/\s/','',$nome.".txt");
+	$arquivo = $nome.".txt";
 	$fp = fopen($arquivo, "a+");
 	fwrite($fp, $texto);
 	fclose($fp);
@@ -23,15 +23,11 @@ $$    $$/ $$    $$/ $$ |  $$ |$$ | $$  |$$    $$/ $$    $$/ $$ |  $$ |$$ | $$$ |
 $$$$$$$/   $$$$$$/  $$/   $$/ $$/   $$/  $$$$$$/   $$$$$$/  $$/   $$/ $$/   $$/        $$$$$$/  $$/ $$/   $$/ \033[0m
 :::::::::::::::::::::::::::::::::::::::::::::::BY JOHN KAI$3R:::::::::::::::::::::::::::::::::::::::::::::::::\n";
 
-echo "[INFORME A DORK *]: ";
-$stdindork = fopen ("php://stdin","r");
-$dork = fgets($stdindork);
-echo "[GRAVAR RESULTADOS EM *]: ";
-$stdingravar = fopen ("php://stdin","r");
-$gravar = fgets($stdingravar);
+$dork = readline("[INFORME A DORK *]: ");
+$gravar = readline("[GRAVAR RESULTADOS EM *]: ");
 
 $query = [
-    "api_key" => "INSIRA AQUI SUA API_KEY", // INSIRA AQUI SUA API KEY
+    "api_key" => "fec9d4c0640d3a9cdd23427db1618943fd5f3b445a3352eed5af28cec5979d5d", // INSIRA AQUI SUA API KEY
     "engine" => "google",
     "q" => $dork,
     "location" => "Brazil",
@@ -49,9 +45,10 @@ curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 $results = json_decode(curl_exec($ch), true);
 
 if(array_key_exists('organic_results', $results)){
+    echo "\e[32m ENCONTRADOS [".$results['search_information']['total_results']."] \033[0m \n";
     $i=0;
     foreach($results['organic_results'] as $result){
-        echo "[$i] => ".$result['link']."\n";
+        echo "\e[32m [$i] => ".$result['link']."\033[0m\n";
         gravar($gravar, $result['link']."\n");
         $i++;
     }
